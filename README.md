@@ -40,7 +40,7 @@ ionic cordova run android -l
 ```
 
 ## Additional information
-2 plugins are used in this project which are needed to be installed
+2 plugins are used in this project
 ### sqlite
 Link: `https://www.npmjs.com/package/@ionic-native/sqlite`
 ### sqlite porter

@@ -2,17 +2,13 @@
 Credentials Manager is completley offile application to store and share your credentials like online accounts and credit or debit cards information
 ## Prerequisites
 1. Ionic 4
-2. Angular 9
-3. Node JS
-4. Cordova
+2. Node JS
+3. Cordova
 
 ## Installing prerequisites
 ### Node JS
-- Download node js from this URL `https://nodejs.org/en/download/`
-### Angular 9
-```
-npm install -g @angular/cli
-```
+- Download & install node js from this URL `https://nodejs.org/en/download/`
+
 ### Ionic 4
 ```
 npm install -g @ionic/cli

@@ -1,5 +1,5 @@
 # Credentials Manager
-Credentials Manager is completley offile application to store and share your credentials like online accounts and credit or debit cards information
+Credentials Manager is completley offile application to store your credentials like online accounts and credit or debit cards information.
 ## Prerequisites
 1. Ionic 4
 2. Node JS
@@ -18,20 +18,7 @@ npm install -g @ionic/cli
 npm install -g cordova
 ```
 
-## Setup
-2 plugins are used in this project which are needed to be installed
-### sqlite
-```
-npm install @ionic-native/sqlite
-ionic cordova plugin add cordova-sqlite-storage
-```
-### sqlite porter
-```
-npm install @ionic-native/sqlite-porter
-ionic cordova plugin add uk.co.workingedge.cordova.plugin.sqliteporter
-```
-
-### To run the project
+## To run the project
 - To run it in the browser
 ```
 ionic serve
@@ -51,3 +38,10 @@ ionic cordova run android
 ```
 ionic cordova run android -l
 ```
+
+## Additional information
+2 plugins are used in this project which are needed to be installed
+### sqlite
+Link: `https://www.npmjs.com/package/@ionic-native/sqlite`
+### sqlite porter
+Link: `https://www.npmjs.com/package/@ionic-native/sqlite-porter`

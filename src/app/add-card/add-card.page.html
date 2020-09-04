@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Card</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup] = 'addCardForm' (ngSubmit) = 'addCard()'>
+
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+
+      <ion-item>
+        <ion-label position="floating">Alias</ion-label>
+        <ion-input type="text" formControlName="alias"></ion-input>
+      </ion-item>
+      <div *ngFor="let error of errorMessage.alias">
+        <ng-container *ngIf="alias.hasError(error.type) && (alias.dirty || alias.touched)">
+          <small class="error-message">{{error.message}}</small>
+        </ng-container>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Card Number</ion-label>
+        <ion-input type="number" formControlName="cardNumber"></ion-input>
+      </ion-item>
+      <div *ngFor="let error of errorMessage.cardNumber">
+        <ng-container *ngIf="cardNumber.hasError(error.type) && (cardNumber.dirty || cardNumber.touched)">
+          <small class="error-message">{{error.message}}</small>
+        </ng-container>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">CVV Number</ion-label>
+        <ion-input type="number" formControlName="cvvNumber"></ion-input>
+      </ion-item>
+      <div *ngFor="let error of errorMessage.cvvNumber" style="margin-bottom: 10px;">
+        <ng-container *ngIf="cvvNumber.hasError(error.type) && (cvvNumber.dirty || cvvNumber.touched)">
+          <small class="error-message">{{error.message}}</small>
+        </ng-container>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Pin Number</ion-label>
+        <ion-input type="number" formControlName="pinNumber"></ion-input>
+      </ion-item>
+      <div *ngFor="let error of errorMessage.pinNumber" style="margin-bottom: 10px;">
+        <ng-container *ngIf="pinNumber.hasError(error.type) && (pinNumber.dirty || pinNumber.touched)">
+          <small class="error-message">{{error.message}}</small>
+        </ng-container>
+      </div>
+
+    </ion-list>
+
+    <ion-button [disabled]="!addCardForm.valid" expand="block" type="submit" style="position:fixed; bottom:20px; width: 90%; margin-left: 5%;" shape="round">Add Card</ion-button>
+
+  </form>
+</ion-content>

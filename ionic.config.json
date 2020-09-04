@@ -1,0 +1,8 @@
+{
+  "name": "Cred-Mngr",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

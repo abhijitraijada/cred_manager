@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Share Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item (click) = "alertPrompt(alias.id)">
+    <ion-label>
+      UserName
+    </ion-label>
+    <ion-button slot="end">
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <ion-item (click) = "alertPrompt(alias.id)">
+    <ion-label>
+      Password
+    </ion-label>
+    <ion-button slot="end">
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <br>
+  <br>
+
+  <ion-item-divider>
+    <ion-label>
+      Shared With
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle></ion-card-subtitle>
+      <ion-card-title>Abc</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+
+      <ion-item>
+        <ion-label>
+          Username
+        </ion-label>
+        <ion-icon slot="end" name="checkmark-circle" color="success">
+        </ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          Password
+        </ion-label>
+        <ion-icon slot="end" name="close-circle" color="danger">
+        </ion-icon>
+      </ion-item>
+
+    </ion-card-content>
+  
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle></ion-card-subtitle>
+      <ion-card-title>Xyz</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+
+      <ion-item>
+        <ion-label>
+          Username
+        </ion-label>
+        <ion-icon slot="end" name="close-circle" color="danger">
+        </ion-icon>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          Password
+        </ion-label>
+        <ion-icon slot="end" name="checkmark-circle" color="success"></ion-icon>
+      </ion-item>
+
+    </ion-card-content>
+  
+  </ion-card>
+
+</ion-content>

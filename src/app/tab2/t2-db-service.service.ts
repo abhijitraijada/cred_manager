@@ -25,37 +25,27 @@ export interface Card {
 
 export class T2DbServiceService {
 
-  private database: SQLiteObject
   private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   // alias = new BehaviorSubject([])
   // card = new BehaviorSubject([])
 
-  constructor(private plt: Platform, private sqlitePorter: SQLitePorter, private sqlite: SQLite, private toast: ToastController, private http: HttpClient ) { 
-    console.log("DB Service Constructor")
-    this.plt.ready().then(() => {
-      this.sqlite.create({
-        name: 'CredMngr.db',
-        location: 'default'
-      })
-      .then((db: SQLiteObject) => {
-        this.database = db;
-        db.executeSql("CREATE TABLE IF NOT EXISTS Alias(id INTEGER PRIMARY KEY AUTOINCREMENT,alias TEXT NOT NULL,type TEXT NOT NULL);", [])
-        // .then(() => {db.executeSql("INSERT or IGNORE INTO Alias(alias, type) VALUES ('Just Test', 'Card');", [])
+  constructor(private plt: Platform, private sqlitePorter: SQLitePorter, private sqlite: SQLite, private toast: ToastController, private http: HttpClient, private sqlService: SqlService ) {   }
+
+  async exp() {
+    await this.sqlService.executeSql("CREATE TABLE IF NOT EXISTS Alias(id INTEGER PRIMARY KEY AUTOINCREMENT,alias TEXT NOT NULL,type TEXT NOT NULL);", [])
         .then(() => {this.dbReady.next(true)
-        });
-      // });
-      });
-    });
+      })
   }
 
   getDatabaseState() {
+    this.exp()
     return this.dbReady.asObservable();
   }
 
   getAlias(): Observable<Alias[]> {
     let alias = new BehaviorSubject([])
-    this.database.executeSql('SELECT * FROM Alias WHERE type = "Card"', []).then(data => {
+    this.sqlService.executeSql('SELECT * FROM Alias WHERE type = "Card"', []).then(data => {
       let list: Alias[] = []
       if(data.rows.length > 0){
         for (var i=0; i < data.rows.length; i++){
@@ -72,7 +62,7 @@ export class T2DbServiceService {
 
   getCard(id): Observable<Card[]>{
     let card = new BehaviorSubject([])
-    this.database.executeSql("SELECT * FROM CreditOrDebitCard WHERE id = ?",[id]).then(data => {
+    this.sqlService.executeSql("SELECT * FROM CreditOrDebitCard WHERE id = ?",[id]).then(data => {
       let crd: Card [] = []
       console.log(data)
       if(data.rows.length > 0){
@@ -89,23 +79,31 @@ export class T2DbServiceService {
   }
   
   deleteAlias(id){
-    return this.database.executeSql('DELETE FROM Alias WHERE id = ?', [id])
+    return this.sqlService.executeSql('DELETE FROM Alias WHERE id = ?', [id]).then(() => {
+      return this.sqlService.executeSql('DELETE FROM CreditOrDebitCard WHERE id = ?', [id])
+    })
   }
   
   addAlias(insertAlias, insertType){
-    return this.database.executeSql("CREATE TABLE IF NOT EXISTS CreditOrDebitCard(card_id INTEGER PRIMARY KEY AUTOINCREMENT,cardNumber INTEGER NOT NULL,cvvNumber INTEGER NOT NULL,pinNumber INTEGER NOT NULL,id INTEGER, FOREIGN KEY (id) REFERENCES Alias (id)  ON UPDATE CASCADE ON DELETE CASCADE);", [])
+    return this.sqlService.executeSql("CREATE TABLE IF NOT EXISTS CreditOrDebitCard(card_id INTEGER PRIMARY KEY AUTOINCREMENT,cardNumber INTEGER NOT NULL,cvvNumber INTEGER NOT NULL,pinNumber INTEGER NOT NULL,id INTEGER, FOREIGN KEY (id) REFERENCES Alias (id)  ON UPDATE CASCADE ON DELETE CASCADE);", [])
     .then(() => {
-      this.database.executeSql("INSERT or IGNORE INTO Alias(alias, type) VALUES (?,?);",[insertAlias,insertType])
+      this.sqlService.executeSql("INSERT INTO Alias(alias, type) VALUES (?,?);",[insertAlias,insertType])
     })
   }
 
   addCard(insertCardNumber, insertCvvNumber, insertPinNumber){
-    return this.database.executeSql("SELECT * FROM Alias", [])
+    return this.sqlService.executeSql("SELECT * FROM Alias", [])
       .then((data: any) => {
-        console.log(data)
-        let flag = data.rows.length - 1
+        let flag: number
+        if (data.rows.length == 0){
+          flag = 0
+          console.log("here")
+        }
+        else{
+          flag = data.rows.length - 1
+        }
         let id = data.rows.item(flag).id
-        this.database.executeSql("INSERT or IGNORE INTO CreditOrDebitCard(cardNumber, cvvNumber, pinNumber, id) VALUES (?,?,?,?);",[insertCardNumber, insertCvvNumber, insertPinNumber, id])
+        this.sqlService.executeSql("INSERT INTO CreditOrDebitCard(cardNumber, cvvNumber, pinNumber, id) VALUES (?,?,?,?);",[insertCardNumber, insertCvvNumber, insertPinNumber, id])
       })
   }
 }

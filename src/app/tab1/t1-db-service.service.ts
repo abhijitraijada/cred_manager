@@ -59,7 +59,6 @@ export class T1DbServiceService {
     let creds = new BehaviorSubject([])
     this.sqlService.executeSql("SELECT * FROM OnlineAccount WHERE id = ?",[id]).then(data => {
       let crd: Creds [] = []
-      console.log(data)
       if(data.rows.length > 0){
         crd.push({
           id: data.rows.item(0).id,
@@ -73,7 +72,9 @@ export class T1DbServiceService {
   }
 
   deleteAlias(id){
-    return this.sqlService.executeSql('DELETE FROM Alias WHERE id = ?', [id])
+    return this.sqlService.executeSql('DELETE FROM Alias WHERE id = ?', [id]).then(() => {
+      return this.sqlService.executeSql('DELETE FROM OnlineAccount WHERE id = ?', [id])
+    })
   }
 
   addAlias(insertAlias, insertType){
@@ -89,7 +90,7 @@ export class T1DbServiceService {
         let flag: number
         if (data.rows.length == 0){
           flag = 0
-          console.log("here")
+          // console.log("here")
         }
         else{
           flag = data.rows.length - 1

@@ -47,16 +47,17 @@ export class AddCardPage implements OnInit {
 
   addCard(){
     let type = "Card"
-    this.db.addAlias(this.addCardForm.value.alias, type)
-    this.db.addCard(this.addCardForm.value.cardNumber, this.addCardForm.value.cvvNumber, this.addCardForm.value.pinNumber)
-    .then(async () => {
-      console.log("Add Account Page: "+this.addCardForm.value.cardNumber, this.addCardForm.value.cvvNumber, this.addCardForm.value.pinNumber)
-      let toast = await this.toast.create({
-        message: 'Card Added',
-        duration: 2500
-      });
-      toast.present().then(() => {
-        this.nc.navigateRoot(['./tabs/tab2'])
+    this.db.addAlias(this.addCardForm.value.alias, type).then(() => {
+      this.db.addCard(this.addCardForm.value.cardNumber, this.addCardForm.value.cvvNumber, this.addCardForm.value.pinNumber)
+      .then(async () => {
+        console.log("Add Account Page: "+this.addCardForm.value.cardNumber, this.addCardForm.value.cvvNumber, this.addCardForm.value.pinNumber)
+        let toast = await this.toast.create({
+          message: 'Card Added',
+          duration: 2500
+        });
+        toast.present().then(() => {
+          this.nc.navigateRoot(['./tabs/tab2'])
+        })
       })
     })
   }

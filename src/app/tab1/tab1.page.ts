@@ -57,17 +57,16 @@ export class Tab1Page implements OnInit{
     this.nc.navigateRoot(['add-account']);
   }
 
-  alertPrompt(id) {
-    this.db.getCredential(4).subscribe(crds => {
+  alertPrompt(id, alias) {
+    this.db.getCredential(id).subscribe(crds => {
       this.crd = crds
-      console.log(this.crd,id)
-      this.createPrompt(0)
+      this.createPrompt(0, alias)
     })
   }
 
-  async createPrompt(index){
+  async createPrompt(index, alias){
     const alert = await this.alertController.create({
-      header: 'Credential 1',
+      header: alias,
       animated: true,
       inputs: [
         {
@@ -87,7 +86,7 @@ export class Tab1Page implements OnInit{
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Confirm Cancel');
+            console.log('Cancel');
           }
         }, {
           text: 'Update',

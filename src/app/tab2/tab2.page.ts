@@ -65,16 +65,17 @@ export class Tab2Page {
     // this.nc.pop()
   }
 
-  alertPrompt(id,index) {
+  alertPrompt(id, alias) {
     this.db.getCard(id).subscribe(crds => {
+      console.log(id)
       this.card = crds
-      this.createPrompt(index)
+      this.createPrompt(0, alias)
     })
   }
 
-  async createPrompt(index){
+  async createPrompt(index, alias){
     const alert = await this.alertController.create({
-      header: 'Credential 1',
+      header: alias,
       animated: true,
       inputs: [
         {
